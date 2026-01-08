@@ -1,10 +1,22 @@
 import torch
 
-if torch.backends.mps.is_available():
-    device = torch.device("mps")      # Mac M1/M2
-elif torch.cuda.is_available():
-    device = torch.device("cuda")     # Windows / Linux GPU
-else:
-    device = torch.device("cpu")      # fallback
+def get_device():
+    if torch.cuda.is_available():
+        device_name = torch.cuda.get_device_name(0)
+        print(f"Using NVIDIA GPU: {device_name}")
+        return torch.device("cuda")
+    
+    if torch.backends.mps.is_available():
+        print("Using Apple Silicon (MPS)")
+        return torch.device("mps")
+    
+    print("GPU not found, using CPU")
+    return torch.device("cpu")
 
-print("Using device:", device)
+
+def main():
+    get_device()
+
+
+if __name__ == "__main__":
+    main()
