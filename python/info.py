@@ -57,7 +57,7 @@
 # Testing:
     # unittest, pytest, fixtures, mocking tools
 
-# Standard  library:
+# Standard library:
     # os, sys, datetime, itertools, functools, subprocess modules
 
 
