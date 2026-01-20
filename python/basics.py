@@ -52,6 +52,7 @@ x = 5  # And this is an inline comment
     # by calling the help() function 
     # this is the standard for creating professional code documentation
 
+
 def calculate_tax(income):
     """
     Calculates income tax.
@@ -59,6 +60,7 @@ def calculate_tax(income):
     Returns: tax (float)
     """
     pass
+
 
 # Commenting Out fot debugging
     # you place # before the working code 
@@ -125,6 +127,53 @@ print(f"User {name} got {score} points")
 
 # Even that way:
 print(f"Double score is {score * 2}")
+
+
+
+# Python Reserved Words
+    # these are reserved words and you cannot use them as constant 
+        # or variable or any other identifier names. 
+
+    # all the Python keywords contain lowercase letters only 
+        # except True, False, and None
+
+"""
+| Keyword       | Description                                               |
+|---------------|-----------------------------------------------------------|
+| False         | Boolean False value (0).                                  |
+| True          | Boolean True value (1).                                   |
+| None          | Represents "nothing" or a null value.                     |
+| and           | Logical operator AND.                                     |
+| as            | Used to create an alias (e.g., import numpy as np).       |
+| assert        | Used for debugging purposes (checks if condition is true).|
+| break         | Exits a loop immediately.                                 |
+| class         | Defines a new class (object blueprint).                   |
+| continue      | Skips the rest of the current loop iteration.             |
+| def           | Defines a function.                                       |
+| del           | Deletes an object or item.                                |
+| elif          | Short for "else if".                                      |
+| else          | The fallback condition in if/elif blocks.                 |
+| except        | Catches exceptions (errors) in a try block.               |
+| finally       | Block of code that always runs after try/except.          |
+| for           | Loop used for iterating over sequences.                   |
+| from          | Imports specific parts from a module.                     |
+| global        | Declares a variable as global (accessible everywhere).    |
+| if            | Conditional statement.                                    |
+| import        | Imports a module/library.                                 |
+| in            | Checks for membership (is item inside list?).             |
+| is            | Checks for object identity (are they the same object?).   |
+| lambda        | Creates an anonymous (single-line) function.              |
+| nonlocal      | Declares a variable in an outer (but not global) scope.   |
+| not           | Logical negation operator.                                |
+| or            | Logical operator OR.                                      |
+| pass          | Null operation (placeholder). Does nothing.               |
+| raise         | Manually triggers an exception (error).                   |
+| return        | Returns a value from a function.                          |
+| try           | Starts a block of code for error handling.                |
+| while         | Loop that runs while a condition is True.                 |
+| with          | Context manager (e.g., for opening files safely).         |
+| yield         | Returns a value from a generator function (saves state).  |
+"""
 
 
 
