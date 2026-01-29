@@ -684,3 +684,97 @@ type(x)           # Returns type of object
 id(x)             # Returns unique memory address
 sorted([3, 1, 2]) # Returns new sorted list [1, 2, 3]
 help(print)       # Prints documentation
+
+
+
+# Escape Characters & Sequences
+    # The backslash (\) is an escape character. 
+    # It allows you to use special characters in strings that are otherwise impossible to type.
+
+print("Hello\nWorld")    # \n = New Line
+print("Name:\tJohn")     # \t = Tabulation
+print('It\'s me')        # \' = Single quote (inside single quotes)
+print("Backslash: \\")   # \\ = To print a literal backslash
+
+
+# Multiline Statements
+    # Python typically expects one statement per line. 
+    # However, long lines can be split for readability.
+
+    # 1. Explicit Line Continuation (using backslash \)
+total = 10 + \
+        20 + \
+        30
+
+    # 2. Implicit Line Continuation (Preferred)
+    # Expressions inside (), [], or {} can be split without backslashes.
+total_sum = (
+    10 + 
+    20 + 
+    30
+)
+
+
+# Multiple Assignment
+    # You can assign values to multiple variables in a single line.
+
+    # Unpacking
+x, y, z = 1, 2, "Hello" 
+# x=1, y=2, z="Hello"
+
+    # Chained Assignment
+a = b = c = 100 
+# All three variables point to the same object (100)
+
+
+# Deleting Variables
+    # The 'del' keyword removes the reference to an object.
+    # It deletes the name from the current namespace.
+
+temp_var = 999
+del temp_var
+# print(temp_var) # NameError: name 'temp_var' is not defined
+
+
+# Constants
+    # Python DOES NOT have a strict 'const' type (like const in C++ or final in Java).
+    # We use a Naming Convention to indicate constants.
+    # CONSTANTS_SHOULD_BE_WRITTEN_IN_UPPER_CASE.
+
+PI = 3.14159
+MAX_CONNECTIONS = 1000
+
+# Technically, you can still change them (PI = 3.0), 
+# but other programmers will know they shouldn't.
+
+
+# Signed vs Unsigned Integers
+    # In languages like C/C++, you have 'int' (signed) and 'unsigned int' (positive only).
+    
+    # In Python, ALL integers are signed objects.
+    # Python integers have arbitrary precision (they can grow as large as memory allows).
+    # You don't need to worry about overflow or unsigned types.
+
+positive_num = 10
+negative_num = -10
+
+    # If you need to work with specific binary representations (like unsigned 8-bit),
+    # you typically use bitwise operations or libraries like 'ctypes' or 'struct'.
+    
+x = -5
+unsigned_val = x & 0xFF  # Simulating unsigned byte (251)
+
+
+# Command Line Arguments
+    # How to handle arguments passed to the script when running it from the terminal.
+    # Example command: python script.py arg1 arg2
+    # We use the 'sys' module.
+
+import sys
+
+sys.argv # is a list of arguments.
+sys.argv[0] # is ALWAYS the name of the script itself.
+
+print(f"Script name: {sys.argv[0]}")
+if len(sys.argv) > 1:
+    print(f"First argument: {sys.argv[1]}")
