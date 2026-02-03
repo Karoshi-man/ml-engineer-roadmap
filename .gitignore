@@ -24,3 +24,7 @@ data/
 .vscode
 
 .conda
+
+python/sandbox/
+
+.venv/

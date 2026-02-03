@@ -61,6 +61,7 @@ def calculate_tax(income):
     """
     pass
 
+print(calculate_tax.__doc__)
 
 # Commenting Out for debugging (Коментування для відлагодження)
     # ви ставите # перед робочим кодом, 
@@ -772,7 +773,7 @@ unsigned_val = x & 0xFF  # Імітація unsigned byte (251)
 
 import sys
 
-sys.argv # це список аргументів.
+sys.argv  # це список аргументів.
 sys.argv[0] # це ЗАВЖДИ ім'я самого скрипта.
 
 print(f"Script name: {sys.argv[0]}")

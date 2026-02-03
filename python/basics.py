@@ -61,6 +61,7 @@ def calculate_tax(income):
     """
     pass
 
+print(calculate_tax.__doc__)
 
 # Commenting Out fot debugging
     # you place # before the working code 
