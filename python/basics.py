@@ -2,7 +2,7 @@
 
 # Python is a dynamically typed language
 
-# It ruled by Indentation (1 tab - 4 spaces)
+# It is ruled by Indentation (Standard is 4 spaces. Do NOT mix tabs and spaces)
 
     # Scope Definition - it is like {} in C
         # if a line has a larger indent than the previous one, 
@@ -184,13 +184,24 @@ print(f"Double score is {score * 2}")
 | Operator Type       | Symbols                | Example / Explanation                  |
 |---------------------|------------------------|----------------------------------------|
 | Arithmetic          | +, -, *, /             | a + b                                  |
-| Exponentiation      | **                     | 2 ** 3 (results in 8)                  |
+| Exponentiation      | ** | 2 ** 3 (results in 8)                  |
 | Floor Division      | //                     | 10 // 3 (results in 3)                 |
 | Modulo / Remainder  | %                      | 10 % 3 (results in 1)                  |
 | Comparison          | ==, !=, >, <, >=, <=   | 5 > 3 (True)                           |
 | Logical             | and, or, not           | True and False                         |
 | Assignment          | =, +=, -=, *=          | x += 1 (same as x = x + 1)             |
 """
+
+# Identity vs Equality
+    # '==' checks value equality (Do they look the same?)
+    # 'is' checks memory identity (Are they the exact same object?)
+
+a = [1, 2]
+b = [1, 2]
+print(a == b) # True  (Contents are the same)
+print(a is b) # False (Different objects in memory)
+c = a
+print(a is c) # True  (Same label, same object)
 
 
 
@@ -225,6 +236,18 @@ x = "Hello"   # now x refers to str (and that's OK)
     # you are not copying the list,
     # you are simply attaching a second label (b) to the same object in memory
 
+# Shallow vs Deep Copy
+    # Since '=' only copies references, we need special tools for real copying.
+
+import copy
+original = [1, 2, [3, 4]]
+
+    # Shallow Copy: Copies structure, but inner elements are still references
+s_copy = original[:] 
+
+    # Deep Copy: Full recursive copy (completely independent object)
+d_copy = copy.deepcopy(original)
+
 
 
 # Data types. Types are categorized:
@@ -238,95 +261,82 @@ y = -5234234234234  # can be as large as you want, as long as you have enough RA
 pi = 3.14     # float (<class 'float'>)
 sci = 1.2e-5  # scientific record
 
-z = 2 + 3j    # comlex (<class 'complex'>)
+z = 2 + 3j    # complex (<class 'complex'>)
 
-# Python does not have 'double' type 
-    # you could use double via numpy (np.float64 - double)
+# Python does not have a 'double' keyword (like C++ or Java).
+# BUT: Python's built-in 'float' IS a double-precision type (64-bit) by default.
+# You only need NumPy (np.float32 vs np.float64) when you want to DOWNGRADE precision to save memory.
 
 
 # Sequence Types
 
-my_list = [1, "a", 3.5] # list (mutable) (<class 'list'>)  
-    # may contain elements of different types (int, string, float, bool, list)
+my_list = [1, "a", 3.5] # list (mutable) (<class 'list'>)
+    # may contain elements of different types (int, str, float, bool, list)
 
 my_tuple = (1, "Hello", 3.14, True, [10, 20]) # tuple (immutable) (<class 'tuple'>)
-    # may contain elements of different types (int, string, float, bool, list)
-# or like this
-my_tuple2 = 12, "bye!", 2.71, (12, 'o'), False # tuple (immutable) (<class 'tuple'>)
+    # Fixed collection. Faster and safer than lists.
+# or like this (parentheses are optional during assignment)
+my_tuple2 = 12, "bye!", 2.71, (12, 'o'), False
 
-r = range(5) # range, generates 0, 1, 2, 3, (<class 'range'>)
+r = range(5) # range, generates 0, 1, 2, 3, 4 (<class 'range'>)
+    # Memory efficient sequence of numbers (lazy generation)
 
-s = "Hello" # string (<class 'str'>) Unchanging Unicode character sequence (text)
-    # technically, it is an array of characters
+s = "Hello" # string (<class 'str'>) Immutable Unicode sequence
+    # Note: Python does NOT have a 'char' type. Even 'H' is a string of len 1.
 
 
 # Mapping Types
 
 user = {"name": "Ivan", "age": 25} # dictionary (mutable) (<class 'dict'>)
-    # works as key:value
-    # Keys must be unique and unchangeable 
-    # e.g. strings, numbers, tuples. Values can be anything
+    # Key-Value pairs. Keys must be Hashable (immutable):
+    # strings, numbers, tuples. Values can be anything.
 
 
 # Set Types
 
-# Unordered collections of unique elements 
-    # the main feature is instant checking of element availability 
-    # and mathematical operations (intersection, union)
+# Unordered collections of unique elements.
+    # Main feature: O(1) membership check (much faster than list).
+    # Supports math operations: intersection (&), union (|), difference (-).
 
-my_set = {1, 2, 3, 3} # set (mutable) (<class 'set'>)
+my_set = {1, 2, 3, 3} # set (mutable) result: {1, 2, 3}
 
 fs = frozenset([1, 2, 3]) # frozenset (immutable) (<class 'frozenset'>)
-    # since it is unchanging, it can be used as a key in a dictionary
+    # Can be used as a dictionary key because it's immutable (hashable).
 
 
 # Boolean Type
-    # only 2 meanings and used to check conditions
+    # logical type with only 2 values.
 
-x = True    # True  (<class 'bool'>)
-y = False   # False (<class 'bool'>)
+x = True    # (<class 'bool'>)
+y = False   # (<class 'bool'>)
 
-    # in Python, bool is a subclass of int
-    # True is 1 and False is 0
-    # so:
+    # In Python, bool is a subclass of int.
+    # True == 1, False == 0.
 
-z = True + True   # 2 (<class 'int'>)
-t = True + False  # 1 (<class 'int'>)
+z = True + True   # 2 (<class 'int'>) - valid but rarely used in clean code
+t = True * 5      # 5 (<class 'int'>)
 
 
 # Binary Types
-    # for working with “raw” data (images, files, network packets)
-    # where it is important to operate with bytes rather than characters
+    # For "raw" data (images, network packets, binary files).
+    # Operates with bytes (integers 0-255), not characters.
 
-    # bytes - unchanging sequence of bytes (numbers from 0 to 255)
+b = b'Hello' # bytes (immutable) (<class 'bytes'>)
 
-b = b'Hello' # byte sequence (<class 'bytes'>)
-    # also when data needs to be transmitted over a network (TCP/UDP)
+ba = bytearray(5) # bytearray (mutable) (<class 'bytearray'>)
+    # Creates: b'\x00\x00\x00\x00\x00' (buffer of 5 null bytes)
 
-    # bytearray - changing byte sequence. Individual bytes can be changed
+    # memoryview - A "Zero-Copy" window to the underlying buffer.
+    # Allows manipulating data without copying it (Performance Critical).
 
-ba = bytearray(5) # bytearray(b'\x00\x00\x00\x00\x00') (<class 'bytearray'>)
-    # array of 5 zero bytes
-
-    # memoryview - This is a “window” on a byte buffer 
-                   # (e.g., bytes, bytearray, array.array) 
-                   # without creating a new copy of the data
-
-# !For 'bytes', 'memoryview' will be read-only because 'bytes' are immutable!
-
-mv = memoryview(b)  # creating memoryview (<class 'memoryview'>)
-    # this is a tool for optimizing work with large amounts of data
-
-print(mv[0])                # 72  → ASCII code 'H'
-print(mv[1:4])              # <memory at 0x...>, but can be converted into bytes:
-print(mv[1:4].tobytes())    # b'ell'
-
+mv_read = memoryview(b)   # Read-only window (since b is bytes)
+mv_write = memoryview(ba) # Writable window (since ba is bytearray)
 
 # Python Data Types Cheat Sheet
 """
 | Category        | Type(s)                 | Mutable?                     |
 |-----------------|-------------------------|------------------------------|
-| Numeric         | int, float, complex     | No (creates a new object)    |
+| Numeric         | int, float, complex     | No                           |
 | Sequence        | str, tuple, range       | No                           |
 | Sequence        | list                    | Yes                          |
 | Mapping         | dict                    | Yes                          |
@@ -335,7 +345,7 @@ print(mv[1:4].tobytes())    # b'ell'
 | Boolean         | bool                    | No                           |
 | Binary          | bytes                   | No                           |
 | Binary          | bytearray               | Yes                          |
-| Binary          | memoryview              | Yes                          |
+| Binary          | memoryview              | Depends on source (Yes/No)   |
 """
 
 
@@ -397,6 +407,11 @@ if x > 0:
     print("True")
     if x % 2 == 0:
         print("and even")
+
+# Ternary Operator
+    # One-line conditional expression.
+    # Syntax: value_if_true if condition else value_if_false
+status = "Adult" if x >= 18 else "Minor"
 
 
 
@@ -494,6 +509,27 @@ for num in my_list:
 else:
     # it will work because break was never called
     print("The number is not on the list")
+
+
+# Loop Helpers (Enumerate & Zip)
+    # enumerate(): Get both index and value
+for index, fruit in enumerate(fruits):
+    print(f"{index}: {fruit}")
+
+    # zip(): Iterate over multiple lists simultaneously
+names = ["Anna", "Bob"]
+ages = [20, 30]
+for name, age in zip(names, ages):
+    print(f"{name} is {age}")
+
+
+# List Comprehensions
+    # The "Pythonic" way to create lists. 
+    # Replaces simple 'for' loops with a concise single line.
+    
+    # Syntax: [expression for item in iterable if condition]
+squares = [x**2 for x in range(10)]
+evens = [x for x in range(10) if x % 2 == 0]
 
 
 
@@ -616,8 +652,24 @@ def greet(name, msg="Good morning"):
     """
     return f"{msg}, {name}!"
 
-print(greet("Ivan"))                 # "Good morning, Ivan!"
-print(greet("Ivan", "Hi"))           # "Hi, Ivan!"
+# The Mutable Default Argument Trap
+    # NEVER use mutable objects (like lists or dicts) as default arguments.
+    # They are created only ONCE when the function is defined, not called.
+    
+    # Bad: def add_item(item, box=[]): -> box shares data across calls
+    # Good:
+def add_item(item, box=None):
+    if box is None:
+        box = []
+    box.append(item)
+    return box
+
+# Type Hinting
+    # Modern Python (3.10+) standard for documentation and IDE checks.
+    # Doesn't enforce types at runtime, but helps static analysis.
+from typing import List, Optional
+def process_data(data: List[int]) -> Optional[str]:
+    return "Done"
 
 # *Args and **Kwargs
     # used when we don't know how many arguments will be passed
@@ -670,6 +722,36 @@ else:
     print(f"Result is {result}")
 finally:
     print("Execution finished")
+
+
+
+# Advanced Concepts
+
+# Context Managers (with statement)
+    # Manages resources (files, locks) safely. Ensures cleanup (like closing a file)
+    # even if errors occur.
+    with open("file.txt") as f: data = f.read()
+
+# Decorators
+    # Functions that modify other functions without changing their code.
+    # Used in frameworks (Flask/Django) for logging, authentication, etc.
+    # Syntax: @decorator_name
+
+# Generators (yield)
+    # Lazy Evaluation. Instead of returning a huge list (memory heavy),
+    # 'yield' returns one item at a time. Essential for Big Data.
+def my_gen():
+    yield 1
+    yield 2 # Pauses here
+
+# Magic Methods (Dunder Methods)
+    # Allow objects to behave like built-in types.
+    # __init__ (constructor), __str__ (string rep), __add__ (operator + overloading).
+
+# Virtual Environments (venv)
+    # Always isolate project dependencies.
+    # python -m venv venv -> pip install requests
+
 
 
 # Built-in Functions Overview
@@ -734,7 +816,7 @@ a = b = c = 100
 
 temp_var = 999
 del temp_var
-# print(temp_var) # NameError: name 'temp_var' is not defined
+print(temp_var) # NameError: name 'temp_var' is not defined
 
 
 # Constants
@@ -779,3 +861,4 @@ sys.argv[0] # is ALWAYS the name of the script itself.
 print(f"Script name: {sys.argv[0]}")
 if len(sys.argv) > 1:
     print(f"First argument: {sys.argv[1]}")
+    

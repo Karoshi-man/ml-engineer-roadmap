@@ -2,7 +2,7 @@
 
 # Python — це динамічно типізована мова
 
-# Вона керується відступами (Indentation) — 1 таб або 4 пробіли
+# Вона керується відступами (Indentation). Стандарт — 4 пробіли. НЕ змішуйте таби та пробіли.
 
     # Scope Definition (Визначення області видимості) — це як {} у C
         # якщо рядок має більший відступ, ніж попередній, 
@@ -192,6 +192,17 @@ print(f"Подвоєний результат: {score * 2}")
 | Присвоєння          | =, +=, -=, *=          | x += 1 (те саме, що x = x + 1)         |
 """
 
+# Identity vs Equality (Ідентичність проти Рівності)
+    # '==' перевіряє рівність значень (Чи виглядають вони однаково?)
+    # 'is' перевіряє ідентичність пам'яті (Чи це буквально один і той самий об'єкт?)
+
+a = [1, 2]
+b = [1, 2]
+print(a == b) # True  (Вміст однаковий)
+print(a is b) # False (Це різні об'єкти в пам'яті)
+c = a
+print(a is c) # True  (Той самий ярлик, той самий об'єкт)
+
 
 
 # Variables (Змінні)
@@ -225,6 +236,18 @@ x = "Hello"   # тепер x посилається на str (і це ОК)
     # ви не копіюєте список,
     # ви просто чіпляєте другий ярлик (b) на той самий об'єкт у пам'яті
 
+# Shallow vs Deep Copy (Поверхнева та Глибока копія)
+    # Оскільки '=' копіює тільки посилання, нам потрібні спеціальні інструменти.
+
+import copy
+original = [1, 2, [3, 4]]
+
+    # Shallow Copy (Поверхнева): Копіює структуру, але вкладені елементи — це посилання
+s_copy = original[:] 
+
+    # Deep Copy (Глибока): Повна рекурсивна копія (абсолютно незалежний об'єкт)
+d_copy = copy.deepcopy(original)
+
 
 
 # Data types. Types are categorized: (Типи даних. Категорії:)
@@ -240,93 +263,80 @@ sci = 1.2e-5  # науковий запис
 
 z = 2 + 3j    # complex (<class 'complex'>) - комплексні числа
 
-# Python не має типу 'double' 
-    # ви можете використовувати double через numpy (np.float64 - double)
+# У Python немає ключового слова 'double' (на відміну від C++ чи Java).
+# АЛЕ: Вбудований тип 'float' у Python — це ВЖЕ double (64-бітна подвійна точність) за замовчуванням.
+# NumPy (np.float32 проти np.float64) потрібен лише тоді, коли ти хочеш ЗНИЗИТИ точність (до 32 біт), щоб зекономити пам'ять.
 
 
 # Sequence Types (Послідовності)
 
-my_list = [1, "a", 3.5] # list (mutable/змінний) (<class 'list'>)  
-    # може містити елементи різних типів (int, string, float, bool, list)
+my_list = [1, "a", 3.5] # list (mutable/змінний) (<class 'list'>)
+    # може містити елементи різних типів (int, str, float, bool, list)
 
 my_tuple = (1, "Hello", 3.14, True, [10, 20]) # tuple (immutable/незмінний) (<class 'tuple'>)
-    # може містити елементи різних типів
-# або так
-my_tuple2 = 12, "bye!", 2.71, (12, 'o'), False # tuple (immutable) (<class 'tuple'>)
+    # Фіксована колекція. Швидша та безпечніша за списки.
+# або так (дужки необов'язкові при присвоєнні)
+my_tuple2 = 12, "bye!", 2.71, (12, 'o'), False
 
-r = range(5) # range, генерує 0, 1, 2, 3, (<class 'range'>)
+r = range(5) # range, генерує 0, 1, 2, 3, 4 (<class 'range'>)
+    # Економна послідовність чисел (лінива генерація/lazy generation)
 
-s = "Hello" # string (<class 'str'>) Незмінна послідовність Unicode символів (текст)
-    # технічно, це масив символів
+s = "Hello" # string (<class 'str'>) Незмінна послідовність Unicode-символів
+    # Примітка: У Python НЕМАЄ типу 'char'. Навіть 'H' — це рядок довжиною 1.
 
 
 # Mapping Types (Типи відображення)
 
 user = {"name": "Ivan", "age": 25} # dictionary (mutable) (<class 'dict'>)
-    # працює як ключ:значення
-    # Ключі повинні бути унікальними та незмінними 
-    # напр. рядки, числа, кортежі. Значення можуть бути будь-якими
+    # Пари Ключ-Значення. Ключі мають бути Хешованими (hashable/незмінними):
+    # рядки, числа, кортежі. Значення можуть бути будь-якими.
 
 
 # Set Types (Множини)
 
-# Невпорядковані колекції унікальних елементів 
-    # Головна фішка — миттєва перевірка наявності елемента 
-    # та математичні операції (перетин, об'єднання)
+# Невпорядковані колекції унікальних елементів.
+    # Головна фішка: O(1) перевірка на входження (набагато швидше за list).
+    # Підтримує мат. операції: перетин (&), об'єднання (|), різниця (-).
 
-my_set = {1, 2, 3, 3} # set (mutable) (<class 'set'>)
+my_set = {1, 2, 3, 3} # set (mutable) результат: {1, 2, 3}
 
 fs = frozenset([1, 2, 3]) # frozenset (immutable) (<class 'frozenset'>)
-    # оскільки він незмінний, його можна використовувати як ключ у словнику
+    # Можна використовувати як ключ у словнику, бо він незмінний (хешований).
 
 
 # Boolean Type (Логічний тип)
-    # Тільки 2 значення, використовується для перевірки умов
+    # логічний тип, що має лише 2 значення.
 
-x = True    # True (Істина)  (<class 'bool'>)
-y = False   # False (Хибність) (<class 'bool'>)
+x = True    # (<class 'bool'>)
+y = False   # (<class 'bool'>)
 
-    # у Python, bool є підкласом int
-    # True — це 1, а False — це 0
-    # тому:
+    # У Python, bool є підкласом int.
+    # True == 1, а False == 0.
 
-z = True + True   # 2 (<class 'int'>)
-t = True + False  # 1 (<class 'int'>)
+z = True + True   # 2 (<class 'int'>) - валідно, але в чистому коді рідкість
+t = True * 5      # 5 (<class 'int'>)
 
 
 # Binary Types (Бінарні типи)
-    # для роботи з "сирими" даними (зображення, файли, мережеві пакети)
-    # де важливо оперувати байтами, а не символами
+    # Для роботи з "сирими" даними (зображення, мережеві пакети, бінарні файли).
+    # Оперує байтами (числа 0-255), а не символами.
 
-    # bytes — незмінна послідовність байтів (числа від 0 до 255)
+b = b'Hello' # bytes (immutable) (<class 'bytes'>)
 
-b = b'Hello' # послідовність байтів (<class 'bytes'>)
-    # також коли дані треба передати через мережу (TCP/UDP)
+ba = bytearray(5) # bytearray (mutable) (<class 'bytearray'>)
+    # Створює: b'\x00\x00\x00\x00\x00' (буфер із 5 нульових байтів)
 
-    # bytearray — змінна послідовність байтів. Окремі байти можна міняти
+    # memoryview — "Zero-Copy" вікно у буфер байтів.
+    # Дозваляє маніпулювати даними без їх копіювання (Критично для швидкодії).
 
-ba = bytearray(5) # bytearray(b'\x00\x00\x00\x00\x00') (<class 'bytearray'>)
-    # масив із 5 нульових байтів
-
-    # memoryview — це "вікно" у буфер байтів 
-                   # (напр., bytes, bytearray, array.array) 
-                   # без створення нової копії даних
-
-# !Для 'bytes', 'memoryview' буде тільки для читання, бо 'bytes' незмінні!
-
-mv = memoryview(b)  # створюємо memoryview (<class 'memoryview'>)
-    # Це інструмент для оптимізації роботи з великими обсягами даних
-
-print(mv[0])                # 72  → ASCII код 'H'
-print(mv[1:4])              # <memory at 0x...>, але можна конвертувати в bytes:
-print(mv[1:4].tobytes())    # b'ell'
-
+mv_read = memoryview(b)   # Тільки для читання (бо джерело b — незмінне)
+mv_write = memoryview(ba) # Доступний запис (бо джерело ba — змінне)
 
 # Python Data Types Cheat Sheet (Шпаргалка)
 """
 | Категорія       | Тип(и)                  | Змінний? (Mutable)           |
 |-----------------|-------------------------|------------------------------|
-| Numeric         | int, float, complex     | Ні (створюється новий об'єкт)|
+| Numeric         | int, float, complex     | Ні                           |
 | Sequence        | str, tuple, range       | Ні                           |
 | Sequence        | list                    | Так                          |
 | Mapping         | dict                    | Так                          |
@@ -335,7 +345,7 @@ print(mv[1:4].tobytes())    # b'ell'
 | Boolean         | bool                    | Ні                           |
 | Binary          | bytes                   | Ні                           |
 | Binary          | bytearray               | Так                          |
-| Binary          | memoryview              | Так                          |
+| Binary          | memoryview              | Залежить від джерела (Так/Ні)|
 """
 
 
@@ -397,6 +407,11 @@ if x > 0:
     print("True")
     if x % 2 == 0:
         print("і парне")
+
+# Ternary Operator (Тернарний оператор)
+    # Однорядковий умовний вираз.
+    # Синтаксис: значення_якщо_так if умова else значення_якщо_ні
+status = "Adult" if x >= 18 else "Minor"
 
 
 
@@ -494,6 +509,27 @@ for num in my_list:
 else:
     # це спрацює, бо break так і не був викликаний
     print("Числа немає в списку")
+
+
+# Loop Helpers (Помічники циклів: Enumerate & Zip)
+    # enumerate(): Отримуємо і індекс, і значення одночасно
+for index, fruit in enumerate(fruits):
+    print(f"{index}: {fruit}")
+
+    # zip(): Проходимо по декількох списках одночасно (паралельно)
+names = ["Anna", "Bob"]
+ages = [20, 30]
+for name, age in zip(names, ages):
+    print(f"{name} is {age}")
+
+
+# List Comprehensions (Генератори списків)
+    # "Pythonic" (істинно пайтонівський) спосіб створення списків.
+    # Замінює прості цикли 'for' на лаконічний один рядок.
+    
+    # Синтаксис: [вираз for елемент in ітерабельний_об'єкт if умова]
+squares = [x**2 for x in range(10)]
+evens = [x for x in range(10) if x % 2 == 0]
 
 
 
@@ -616,8 +652,24 @@ def greet(name, msg="Good morning"):
     """
     return f"{msg}, {name}!"
 
-print(greet("Ivan"))                 # "Good morning, Ivan!"
-print(greet("Ivan", "Hi"))           # "Hi, Ivan!"
+# The Mutable Default Argument Trap (Пастка змінного аргументу за замовчуванням)
+    # НІКОЛИ не використовуйте змінні об'єкти (як списки або словники) як дефолтні аргументи.
+    # Вони створюються лише ОДИН РАЗ при визначенні функції, а не при кожному виклику.
+    
+    # Погано: def add_item(item, box=[]): -> box зберігає дані між викликами
+    # Добре:
+def add_item(item, box=None):
+    if box is None:
+        box = []
+    box.append(item)
+    return box
+
+# Type Hinting (Анотації типів)
+    # Стандарт сучасного Python (3.10+) для документації та перевірки IDE.
+    # Не впливає на виконання коду, але допомагає статичному аналізу (mypy).
+from typing import List, Optional
+def process_data(data: List[int]) -> Optional[str]:
+    return "Done"
 
 # *Args and **Kwargs
     # Використовуються, коли ми не знаємо, скільки аргументів буде передано
@@ -670,6 +722,36 @@ else:
     print(f"Результат: {result}")
 finally:
     print("Виконання завершено")
+
+
+
+# Advanced Concepts
+
+# Context Managers (Менеджери контексту 'with')
+    # Безпечне керування ресурсами (файли, підключення). Гарантує очищення (напр. закриття файлу)
+    # навіть у випадку помилки.
+    with open("file.txt") as f: data = f.read()
+
+# Decorators (Декоратори)
+    # Функції, які змінюють поведінку інших функцій без зміни їхнього коду.
+    # Використовуються у фреймворках (Flask/Django) для логування, авторизації тощо.
+    # Синтаксис: @decorator_name
+
+# Generators (Генератори / yield)
+    # Ліниві обчислення (Lazy Evaluation). Замість повернення величезного списку (що їсть пам'ять),
+    # 'yield' повертає по одному елементу за раз. Критично для Big Data.
+def my_gen():
+    yield 1
+    yield 2 # Пауза тут
+
+# Magic Methods (Магічні методи / Dunder Methods)
+    # Дозволяють об'єктам поводитись як вбудовані типи.
+    # __init__ (конструктор), __str__ (рядкове представлення), __add__ (перевантаження оператора +).
+
+# Virtual Environments (Віртуальні середовища / venv)
+    # Завжди ізолюйте залежності проекту.
+    # python -m venv venv -> pip install requests
+
 
 
 # Built-in Functions Overview (Огляд вбудованих функцій)
@@ -734,7 +816,7 @@ a = b = c = 100
 
 temp_var = 999
 del temp_var
-# print(temp_var) # NameError: name 'temp_var' is not defined
+print(temp_var) # NameError: name 'temp_var' is not defined
 
 
 # Constants (Константи)
@@ -773,7 +855,7 @@ unsigned_val = x & 0xFF  # Імітація unsigned byte (251)
 
 import sys
 
-sys.argv  # це список аргументів.
+sys.argv # це список аргументів.
 sys.argv[0] # це ЗАВЖДИ ім'я самого скрипта.
 
 print(f"Script name: {sys.argv[0]}")
